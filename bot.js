@@ -150,20 +150,22 @@ function msgFragments(message, emotesPositions, offset) {
     });
   }
 
+  unicodeSplit = [...message];
+
   bounds
     .sort((a, b) => a - b)
     .forEach((bound, index, array) => {
       if (index == 0 && bound > 0) {
-        const text = message.slice(0, bound);
+        const text = unicodeSplit.slice(0, bound).join("");
         fragments.push(msgFragment(text));
       }
       const nextBound = array[index + 1];
       if (index % 2 == 0) {
-        const text = message.slice(bound, nextBound + 1);
+        const text = unicodeSplit.slice(bound, nextBound + 1).join("");
         const emote = emotes[bound];
         fragments.push(msgFragment(text, emote));
-      } else if (bound < message.length - 1) {
-        const text = message.slice(bound + 1, nextBound);
+      } else if (bound < unicodeSplit.length - 1) {
+        const text = unicodeSplit.slice(bound + 1, nextBound).join("");
         fragments.push(msgFragment(text));
       }
     });
